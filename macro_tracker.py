@@ -15,11 +15,9 @@ import numpy as np
 import pytz
 import seaborn as sns
 
-# Set professional style
 plt.style.use('seaborn-v0_8-darkgrid')
 sns.set_palette("husl")
 
-# ==================== CONFIGURATION ====================
 FRED_API_KEY = '725661d97c523a1e1f0214b7b51051c6'
 
 fred_series = {
@@ -31,7 +29,6 @@ fred_series = {
     'GDP Growth': 'A191RL1Q225SBEA'
 }
 
-# Expanded asset universe with professional categorization
 asset_symbols = {
     # Equities
     'S&P 500': '^GSPC',
@@ -65,7 +62,6 @@ asset_symbols = {
     'AUD/USD': 'AUDUSD=X'
 }
 
-# Asset categories for organized display
 asset_categories = {
     'Equities': ['S&P 500', 'Nasdaq', 'Dow Jones', 'Russell 2000'],
     'Fixed Income': ['10Y Treasury', '2Y Treasury', '30Y Treasury'],
@@ -76,7 +72,6 @@ asset_categories = {
 }
 
 
-# ==================== HELPER FUNCTIONS ====================
 
 def is_trading_day(date):
     """Check if date is a weekday"""
@@ -127,7 +122,6 @@ def fetch_yfinance_intraday(ticker, event_date, window_min, max_days=7):
         start_time = et.localize(start_time)
         end_time = start_time + timedelta(minutes=window_min)
 
-        # Crypto/FX trade 24/7
         if any(x in ticker for x in ['BTC', 'ETH', '=X']):
             start_time = et.localize(datetime.combine(event_date, time(0, 0)))
             end_time = start_time + timedelta(minutes=window_min)
@@ -174,7 +168,6 @@ def compute_advanced_metrics(assets_data, window_min):
         if len(returns) < 2:
             continue
 
-        # Basic metrics
         metrics[asset] = {
             'return': ((prices.iloc[-1] / prices.iloc[0]) - 1) * 100,
             'volatility': returns.std() * 100,
@@ -189,7 +182,6 @@ def compute_advanced_metrics(assets_data, window_min):
     return metrics
 
 
-# ==================== PROFESSIONAL GUI ====================
 
 class ProfessionalMacroTrackerApp:
     def __init__(self, root):
@@ -198,7 +190,6 @@ class ProfessionalMacroTrackerApp:
         self.root.geometry("1600x1000")
         self.root.resizable(True, True)
 
-        # Configure color scheme
         self.colors = {
             'bg': '#f0f0f0',
             'primary': '#2c3e50',
@@ -209,7 +200,6 @@ class ProfessionalMacroTrackerApp:
             'warning': '#f39c12'
         }
 
-        # Configure style
         style = ttk.Style()
         style.theme_use('clam')
         style.configure('Title.TLabel', font=('Arial', 14, 'bold'), foreground=self.colors['primary'])
@@ -223,20 +213,16 @@ class ProfessionalMacroTrackerApp:
 
     def setup_ui(self):
         """Setup the user interface"""
-        # Main container
         main_container = ttk.Frame(self.root, padding=15)
         main_container.pack(fill='both', expand=True)
 
 
-        # ========== CONTROL PANEL ==========
         control_frame = ttk.LabelFrame(main_container, text="Analysis Configuration", padding=15)
         control_frame.pack(fill='x', pady=(0, 10))
 
-        # Grid layout for controls
         controls_grid = ttk.Frame(control_frame)
         controls_grid.pack(fill='x')
 
-        # Event selection
         ttk.Label(controls_grid, text="Macro Event:", style='Header.TLabel').grid(
             row=0, column=0, sticky='w', padx=10, pady=5
         )
@@ -252,7 +238,6 @@ class ProfessionalMacroTrackerApp:
         self.event_cb.current(0)
         self.event_cb.grid(row=0, column=1, padx=10, pady=5)
 
-        # Date selection
         ttk.Label(controls_grid, text="Event Date:", style='Header.TLabel').grid(
             row=0, column=2, sticky='w', padx=10, pady=5
         )
@@ -264,7 +249,6 @@ class ProfessionalMacroTrackerApp:
         )
         self.date_picker.grid(row=0, column=3, padx=10, pady=5)
 
-        # Window selection
         ttk.Label(controls_grid, text="Analysis Window:", style='Header.TLabel').grid(
             row=0, column=4, sticky='w', padx=10, pady=5
         )
@@ -280,7 +264,6 @@ class ProfessionalMacroTrackerApp:
         self.win_cb.current(2)
         self.win_cb.grid(row=0, column=5, padx=10, pady=5)
 
-        # Analyze button
         self.analyze_btn = ttk.Button(
             controls_grid,
             text="🔍 ANALYZE",
@@ -290,7 +273,6 @@ class ProfessionalMacroTrackerApp:
         )
         self.analyze_btn.grid(row=0, column=6, padx=20, pady=5)
 
-        # ========== RESULTS CONTAINER ==========
         self.results_notebook = ttk.Notebook(main_container)
         self.results_notebook.pack(fill='both', expand=True)
 
@@ -609,9 +591,9 @@ class ProfessionalMacroTrackerApp:
             log_text.insert(tk.END, line + '\n')
 
 
-# ==================== MAIN ====================
 
 if __name__ == "__main__":
     root = tk.Tk()
     app = ProfessionalMacroTrackerApp(root)
     root.mainloop()
+
