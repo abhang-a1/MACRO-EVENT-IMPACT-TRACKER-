@@ -1,0 +1,8 @@
+pandas
+matplotlib
+requests
+yfinance
+tkcalendar
+pytz
+seaborn
+numpy
